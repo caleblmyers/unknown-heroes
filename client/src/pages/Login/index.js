@@ -1,62 +1,62 @@
-import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import React, { Component } from 'react'
+import { Link, Redirect } from 'react-router-dom'
 
-import "./login.css";
-import API from '../../lib/API';
-import AuthContext from '../../contexts/AuthContext';
-import LoginForm from '../../components/LoginForm';
+import './login.css'
+import API from '../../lib/API'
+import AuthContext from '../../contexts/AuthContext'
+import LoginForm from '../../components/LoginForm'
 
 class Login extends Component {
-  static contextType = AuthContext;
+  static contextType = AuthContext
 
   state = {
     redirectToReferrer: false,
-    error: ""
+    error: ''
   }
 
   handleSubmit = (email, password) => {
     API.Users.login(email, password)
       .then(response => response.data)
       .then(({ user, token }) => {
-        this.context.onLogin(user, token);
-        this.setState({ redirectToReferrer: true, error: "" });
+        this.context.onLogin(user, token)
+        this.setState({ redirectToReferrer: true, error: '' })
       })
       .catch(err => {
-        let message;
+        let message
 
         if (err.response) {
           switch (err.response.status) {
             case 401:
-              message = 'Sorry, that email/password combination is not valid. Please try again.';
-              break;
+              message = 'Sorry, that email/password combination is not valid. Please try again.'
+              break
             case 500:
-              message = 'Server error. Please try again later.';
-              break;
+              message = 'Server error. Please try again later.'
+              break
             default:
-              message = 'Unknown error.';
+              message = 'Unknown error.'
           }
         } else {
           console.log(err)
         }
 
-        this.setState({ error: message });
-      });
+        this.setState({ error: message })
+      })
   }
 
   render() {
-    const { from } = this.props.location.state || { from: { pathname: "/character" } };
-    const { redirectToReferrer } = this.state;
+    const { from } = this.props.location.state || { from: { pathname: '/character' } }
+    const { redirectToReferrer } = this.state
 
     if (redirectToReferrer) {
-      return <Redirect to={from} />;
+      return <Redirect to={from} />
     }
 
     return (
 
-      <div className='Login text-white' id="loginbackground">
+      <div className='Login text-white' id='loginbackground'>
         <div className='row no-gutters'>
           <div className='col'>
-            <div className="h1" id="logintext">Login</div>
+            <div className='h1' id='logintext'>Login</div>
           </div>
         </div>
 
@@ -78,8 +78,8 @@ class Login extends Component {
 
 
 
-    );
+    )
   }
 }
 
-export default Login;
+export default Login

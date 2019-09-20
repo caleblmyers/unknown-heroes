@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
-import { Link, Redirect } from "react-router-dom"
+import React, { Component } from 'react'
+import { Link, Redirect } from 'react-router-dom'
 
-import "./battle.css"
-import AuthContext from '../../contexts/AuthContext';
-import API from '../../lib/API';
-import Knight from "../../img/knight_idle.png"
-import Mage from "../../img/mage_idle.png"
-import Thief from "../../img/thief_sm.png"
-import Bat from "../../img/bat1.png"
-import Goblin from "../../img/goblin1.png"
-import Dragon from "../../img/dragon1.png"
-import Dungeon from "../../img/dungeonbackground.png"
+import './battle.css'
+import AuthContext from '../../contexts/AuthContext'
+import API from '../../lib/API'
+import Knight from '../../img/knight_idle.png'
+import Mage from '../../img/mage_idle.png'
+import Thief from '../../img/thief_sm.png'
+import Bat from '../../img/bat1.png'
+import Goblin from '../../img/goblin1.png'
+import Dragon from '../../img/dragon1.png'
+import Dungeon from '../../img/dungeonbackground.png'
 import Slash from '../../music/464500__elynch0901__attack-kick-2.wav'
 import Dead from '../../music/483653__spacejoe__falling-object-6.wav'
 import battleMusic from '../../music/2019-01-22_-_Ready_to_Fight_-_David_Fesliyan.mp3'
@@ -19,16 +19,16 @@ class Battle extends Component {
   static contextType = AuthContext
 
   constructor(props) {
-    super(props);
-    this.sound = new Audio(battleMusic);
-    this.slash = new Audio(Slash);
-    this.dead = new Audio(Dead);
+    super(props)
+    this.sound = new Audio(battleMusic)
+    this.slash = new Audio(Slash)
+    this.dead = new Audio(Dead)
   }
 
   state = {
     match: this.props.location.state,
     roundActive: false,
-    combatText: "",
+    combatText: '',
     textCounter: 0,
     gameOver: false,
     heroHp: 0,
@@ -38,34 +38,38 @@ class Battle extends Component {
     heroImage: undefined,
     enemyImage: undefined,
     results: {},
-    resultsLink: "/results"
+    resultsLink: '/results'
   }
 
   componentDidMount() {
-    this.sound.play();
+    this.sound.play()
     let heroImage
     let enemyImage
     switch (this.state.match.hero.name) {
-      case "Knight":
+      case 'Knight':
         heroImage = this.state.heroImages[0]
-        break;
-      case "Thief":
+        break
+      case 'Thief':
         heroImage = this.state.heroImages[1]
-        break;
-      case "Mage":
+        break
+      case 'Mage':
         heroImage = this.state.heroImages[2]
-        break;
+        break
+      default:
+        heroImage = this.state.heroImages[0]
     }
     switch (this.state.match.enemy.name) {
-      case "Bat":
+      case 'Bat':
         enemyImage = this.state.enemyImages[0]
-        break;
-      case "Goblin":
+        break
+      case 'Goblin':
         enemyImage = this.state.enemyImages[1]
-        break;
-      case "Dragon":
+        break
+      case 'Dragon':
         enemyImage = this.state.enemyImages[2]
-        break;
+        break
+      default:
+        heroImage = this.state.enemyImages[0]
     }
     this.setState({
       heroImage,
@@ -82,7 +86,7 @@ class Battle extends Component {
   }
 
   componentWillUnmount() {
-    this.sound.pause();
+    this.sound.pause()
   }
 
   attack = () => {
@@ -94,26 +98,26 @@ class Battle extends Component {
     })
 
     API.Battle.attack().then((res) => {
-      this.typeWriter(` ${res.data.playerMessage} ${res.data.enemyMessage} ${res.data.playerDead}`);
+      this.typeWriter(` ${res.data.playerMessage} ${res.data.enemyMessage} ${res.data.playerDead}`)
 
-      let hele = document.getElementById("battle-hero");
-      hele.style.left = "12%"
+      let hele = document.getElementById('battle-hero')
+      hele.style.left = '12%'
       setTimeout(() => {
-        hele.style.left = "2%";
-      }, 200);
+        hele.style.left = '2%'
+      }, 200)
 
       setTimeout(() => {
         if (res.data.playerMessage.includes('damage')) {
-          this.slash.play();
-          let eele = document.getElementById("battle-enemy");
-          eele.style.opacity = 0;
+          this.slash.play()
+          let eele = document.getElementById('battle-enemy')
+          eele.style.opacity = 0
           setTimeout(() => {
             let flash = setInterval(function () {
-              if (eele.style.opacity === "0") {
-                eele.style.opacity = 1;
+              if (eele.style.opacity === '0') {
+                eele.style.opacity = 1
               }
               else {
-                eele.style.opacity = 0;
+                eele.style.opacity = 0
               }
             }, 100)
             setTimeout(() => {
@@ -124,36 +128,36 @@ class Battle extends Component {
       }, 300)
 
       setTimeout(() => {
-        let eele = document.getElementById("battle-enemy");
+        let eele = document.getElementById('battle-enemy')
         if (this.state.enemyHp > 0) {
-          eele.style.opacity = 1;
-          eele.style.right = "10%";
+          eele.style.opacity = 1
+          eele.style.right = '10%'
           setTimeout(() => {
-            eele.style.right = "0%";
-          }, 300);
+            eele.style.right = '0%'
+          }, 300)
         } else {
-          this.dead.play();
-          eele.style.opacity = 0;
+          this.dead.play()
+          eele.style.opacity = 0
         }
 
         setTimeout(() => {
           if (res.data.enemyMessage.includes('damage')) {
-            this.slash.play();
-            let hele = document.getElementById("battle-hero");
-            hele.style.opacity = 0;
+            this.slash.play()
+            let hele = document.getElementById('battle-hero')
+            hele.style.opacity = 0
             setTimeout(() => {
               let flash = setInterval(function () {
-                if (hele.style.opacity === "0") {
-                  hele.style.opacity = 1;
+                if (hele.style.opacity === '0') {
+                  hele.style.opacity = 1
                 }
                 else {
-                  hele.style.opacity = 0;
+                  hele.style.opacity = 0
                 }
               }, 100)
               setTimeout(() => {
                 clearInterval(flash)
               }, 300)
-            }, 100);
+            }, 100)
           }
         }, 400)
 
@@ -173,7 +177,7 @@ class Battle extends Component {
               xpGain: this.state.match.enemy.exp,
               goldGain: this.state.match.enemy.gold
             },
-            resultsLink: "/results"
+            resultsLink: '/results'
           })
         } else {
           this.setState({
@@ -183,7 +187,7 @@ class Battle extends Component {
               xpGain: 0,
               goldGain: 0
             },
-            resultsLink: "/gameover"
+            resultsLink: '/gameover'
           })
         }
         setTimeout(() => {
@@ -192,11 +196,11 @@ class Battle extends Component {
           })
         }, 4000)
       }
-    });
+    })
 
     setTimeout(() => {
-      let hele = document.getElementById("battle-hero");
-      hele.style.opacity = 1;
+      let hele = document.getElementById('battle-hero')
+      hele.style.opacity = 1
     }, 1000)
   }
 
@@ -209,38 +213,38 @@ class Battle extends Component {
     })
 
     API.Battle.defend().then((res) => {
-      this.typeWriter(` ${res.data.playerMessage} ${res.data.enemyMessage} ${res.data.playerDead}`);
+      this.typeWriter(` ${res.data.playerMessage} ${res.data.enemyMessage} ${res.data.playerDead}`)
 
       setTimeout(() => {
-        let eele = document.getElementById("battle-enemy");
+        let eele = document.getElementById('battle-enemy')
         if (this.state.enemyHp > 0) {
-          eele.style.opacity = 1;
-          eele.style.right = "10%";
+          eele.style.opacity = 1
+          eele.style.right = '10%'
           setTimeout(() => {
-            eele.style.right = "0%";
-          }, 300);
+            eele.style.right = '0%'
+          }, 300)
         } else {
-          eele.style.opacity = 0;
+          eele.style.opacity = 0
         }
 
         setTimeout(() => {
           if (res.data.enemyMessage.includes('damage')) {
-            this.slash.play();
-            let hele = document.getElementById("battle-hero");
-            hele.style.opacity = 0;
+            this.slash.play()
+            let hele = document.getElementById('battle-hero')
+            hele.style.opacity = 0
             setTimeout(() => {
               let flash = setInterval(function () {
-                if (hele.style.opacity === "0") {
-                  hele.style.opacity = 1;
+                if (hele.style.opacity === '0') {
+                  hele.style.opacity = 1
                 }
                 else {
-                  hele.style.opacity = 0;
+                  hele.style.opacity = 0
                 }
               }, 100)
               setTimeout(() => {
                 clearInterval(flash)
               }, 300)
-            }, 100);
+            }, 100)
           }
         }, 300)
 
@@ -259,7 +263,7 @@ class Battle extends Component {
               xpGain: this.state.match.enemy.exp,
               goldGain: this.state.match.enemy.gold
             },
-            resultsLink: "/results"
+            resultsLink: '/results'
           })
         } else {
           this.setState({
@@ -269,7 +273,7 @@ class Battle extends Component {
               xpGain: 0,
               goldGain: 0
             },
-            resultsLink: "/gameover"
+            resultsLink: '/gameover'
           })
         }
         setTimeout(() => {
@@ -278,23 +282,23 @@ class Battle extends Component {
           })
         }, 4000)
       }
-    });
+    })
     setTimeout(() => {
-      let hele = document.getElementById("battle-hero");
-      hele.style.opacity = 1;
+      let hele = document.getElementById('battle-hero')
+      hele.style.opacity = 1
     }, 1000)
   }
 
   typeWriter = newText => {
-    let i = this.state.textCounter;
-    let speed = 50;
+    let i = this.state.textCounter
+    let speed = 50
     if (i < newText.length) {
       let text = this.state.combatText
       this.setState({
         combatText: text + newText.charAt(i),
         textCounter: i + 1,
       })
-      setTimeout(() => this.typeWriter(newText), speed);
+      setTimeout(() => this.typeWriter(newText), speed)
     } else {
       this.setState({ roundActive: false })
     }
@@ -302,56 +306,56 @@ class Battle extends Component {
   }
 
   render() {
-    if (!this.context.user) return <Redirect to="/" />
+    if (!this.context.user) return <Redirect to='/' />
     const { hero, enemy } = this.state.match
     const { combatText } = this.state
 
 
     return (
-      <div className="Battle">
-        <img src={Dungeon} id="battlebackground"></img>
+      <div className='Battle'>
+        <img src={Dungeon} id='battlebackground' alt='Background'></img>
         {this.props.location.state ? (
           <div>
             <h1>Battle Mode!</h1>
-            <div className="container" id="game-stage">
-              <div className="row h-100">
-                <div className="col position-relative">
-                  <div id="battle-hero"><img src={this.state.heroImage} alt="heromodel"></img></div>
-                  <div id="battle-enemy"><img src={this.state.enemyImage} alt="enemymodel"></img></div>
-                  <div className="border border-dark bg-tan rounded" id="hero-stats">
-                    <div className="pt-2">
-                      <div className="h4">{hero.name}</div>
-                      <div className="lead">HP: {this.state.heroHp}/{this.state.match.hero.maxHp}</div>
+            <div className='container' id='game-stage'>
+              <div className='row h-100'>
+                <div className='col position-relative'>
+                  <div id='battle-hero'><img src={this.state.heroImage} alt='heromodel'></img></div>
+                  <div id='battle-enemy'><img src={this.state.enemyImage} alt='enemymodel'></img></div>
+                  <div className='border border-dark bg-tan rounded' id='hero-stats'>
+                    <div className='pt-2'>
+                      <div className='h4'>{hero.name}</div>
+                      <div className='lead'>HP: {this.state.heroHp}/{this.state.match.hero.maxHp}</div>
                     </div>
                   </div>
-                  <div className="border border-dark bg-tan rounded" id="enemy-stats">
-                    <div className="pt-2">
-                      <div className="h4">{enemy.name}</div>
-                      <div className="lead">HP: {this.state.enemyHp}/{this.state.match.enemy.maxHp}</div>
+                  <div className='border border-dark bg-tan rounded' id='enemy-stats'>
+                    <div className='pt-2'>
+                      <div className='h4'>{enemy.name}</div>
+                      <div className='lead'>HP: {this.state.enemyHp}/{this.state.match.enemy.maxHp}</div>
                     </div>
                   </div>
-                  <div className="border border-dark bg-tan rounded" id="action-menu">
+                  <div className='border border-dark bg-tan rounded' id='action-menu'>
                     {this.state.gameOver ? (
-                      <div id="action-btns">
+                      <div id='action-btns'>
                         <Link to={{
                           pathname: this.state.resultsLink,
                           state: {
                             results: this.state.results,
                             id: this.context.user._id
                           }
-                        }}><button id="continue" className="btn btn-success mr-3">Continue</button></Link>
+                        }}><button id='continue' className='btn btn-success mr-3'>Continue</button></Link>
                       </div>
                     ) : (
-                        <div id="action-btns">
-                          <button title="Attack the enemy" onClick={this.attack} className="btn btn-success mr-3" id="attack-btn">Attack</button>
-                          <button title="Reduce damage taken and heal your hp by 10%" onClick={this.defend} className="btn btn-info ml-3" id="defend-btn">Defend</button>
+                        <div id='action-btns'>
+                          <button title='Attack the enemy' onClick={this.attack} className='btn btn-success mr-3' id='attack-btn'>Attack</button>
+                          <button title='Reduce damage taken and heal your hp by 10%' onClick={this.defend} className='btn btn-info ml-3' id='defend-btn'>Defend</button>
                         </div>
                       )}
                   </div>
-                  <div className="border border-dark bg-tan rounded" id="action-text">
-                    <div id="text-box">
-                      <div className="container">
-                        <p className="text-left lead" id="typewriter">{combatText.split('.').map(text => <p> {text}</p>)}</p>
+                  <div className='border border-dark bg-tan rounded' id='action-text'>
+                    <div id='text-box'>
+                      <div className='container'>
+                        <p className='text-left lead' id='typewriter'>{combatText.split('.').map(text => <p> {text}</p>)}</p>
                       </div>
                     </div>
                   </div>
@@ -360,11 +364,11 @@ class Battle extends Component {
             </div>
           </div>
         ) : (
-            <Redirect to="/character" />
+            <Redirect to='/character' />
           )}
       </div >
     )
   }
 }
 
-export default Battle;
+export default Battle

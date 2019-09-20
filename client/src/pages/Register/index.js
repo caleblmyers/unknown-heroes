@@ -1,17 +1,17 @@
-import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import React, { Component } from 'react'
+import { Redirect } from 'react-router-dom'
 
-import "./register.css";
-import API from '../../lib/API';
-import AuthContext from '../../contexts/AuthContext';
-import RegistrationForm from '../../components/RegistrationForm';
+import './register.css'
+import API from '../../lib/API'
+import AuthContext from '../../contexts/AuthContext'
+import RegistrationForm from '../../components/RegistrationForm'
 
 class Register extends Component {
-  static contextType = AuthContext;
+  static contextType = AuthContext
 
   state = {
     redirectToReferrer: false,
-    error: ""
+    error: ''
   }
 
   handleSubmit = (email, password) => {
@@ -21,21 +21,21 @@ class Register extends Component {
       })
       .catch(err => {
         if (err.response.status === 401) {
-          this.setState({ error: "Sorry, that email/password combination is not valid. Please try again." });
+          this.setState({ error: 'Sorry, that email/password combination is not valid. Please try again.' })
         }
-      });
+      })
   }
 
   render() {
-    const { from } = this.props.location.state || { from: { pathname: "/character" } };
-    const { redirectToReferrer } = this.state;
+    const { from } = this.props.location.state || { from: { pathname: '/character' } }
+    const { redirectToReferrer } = this.state
 
     if (redirectToReferrer) {
-      return <Redirect to={from} />;
+      return <Redirect to={from} />
     }
 
     return (
-      <div className='Login' id="registerbackground">
+      <div className='Login' id='registerbackground'>
         <div className='row no-gutters'>
           <div className='col'>
             <div className='h1 text-white' id='logintext'>Register Account</div>
@@ -55,8 +55,8 @@ class Register extends Component {
           </div>
         </div>
       </div>
-    );
+    )
   }
 }
 
-export default Register;
+export default Register

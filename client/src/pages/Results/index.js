@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import { Link } from "react-router-dom"
+import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 
-import "./Results.css"
-import AuthContext from "../../contexts/AuthContext"
-import API from '../../lib/API';
-import Knight from "../../img/knight_idle.png"
-import Mage from "../../img/mage_idle.png"
-import Thief from "../../img/thief_sm.png"
+import './Results.css'
+import AuthContext from '../../contexts/AuthContext'
+import API from '../../lib/API'
+import Knight from '../../img/knight_idle.png'
+import Mage from '../../img/mage_idle.png'
+import Thief from '../../img/thief_sm.png'
 import Victory from '../../music/2018-06-06_-_Dreams_of_a_Child_-_David_Fesliyan.mp3'
 import Loading from '../../img/loading.gif'
 
@@ -14,8 +14,8 @@ class Results extends Component {
   static contextType = AuthContext
 
   constructor(props) {
-    super(props);
-    this.sound = new Audio(Victory);
+    super(props)
+    this.sound = new Audio(Victory)
   }
 
   state = {
@@ -30,9 +30,9 @@ class Results extends Component {
   }
 
   componentDidMount() {
-    this.sound.play();
+    this.sound.play()
     let heroImage
-    console.log(this.state.hero.name);
+    console.log(this.state.hero.name)
 
     if (!this.props.location.state) return
     API.Users.sendResults(this.props.location.state.results, this.props.location.state.id)
@@ -65,17 +65,18 @@ class Results extends Component {
               })
               .catch(err => console.log(err))
               .finally(res => {
-                console.log(this.state.hero.name)
                 switch (this.props.location.state.results.hero.name) {
-                  case "Knight":
+                  case 'Knight':
                     heroImage = this.state.heroImages[0]
-                    break;
-                  case "Thief":
+                    break
+                  case 'Thief':
                     heroImage = this.state.heroImages[1]
-                    break;
-                  case "Mage":
+                    break
+                  case 'Mage':
                     heroImage = this.state.heroImages[2]
-                    break;
+                    break
+                  default:
+                    heroImage = this.state.heroImages[0]
                 }
                 this.setState({
                   heroImage
@@ -89,18 +90,18 @@ class Results extends Component {
   }
 
   componentWillUnmount() {
-    this.sound.pause();
+    this.sound.pause()
   }
 
   render() {
-   
+
     return this.state.results.hero ? (
-      
-      <div className="bg-scroll bg-tan h-100">
+
+      <div className='bg-scroll bg-tan h-100'>
         <h1>Results Details</h1>
-        <div className="container results-bg">
-          <div className="row">
-            <div className="col-md-4 stats">
+        <div className='container results-bg'>
+          <div className='row'>
+            <div className='col-md-4 stats'>
               <ul>
                 <li>Name: {this.state.hero[0].name}</li>
                 <li>Level: {this.state[`${this.state.hero[0].name}Lv`]}</li>
@@ -111,28 +112,28 @@ class Results extends Component {
                 <li>Eva: {this.state.hero[0].eva}</li>
                 <li>Spd: {this.state.hero[0].spd}</li>
               </ul>
-              <div id="results-hero"><img src={this.state.heroImage}></img></div>
+              <div id='results-hero'><img src={this.state.heroImage} alt='Hero Model'></img></div>
             </div>
-            <div className="col-md-8">
-              <div className="row">
-                <div className="col-md-6 results">
+            <div className='col-md-8'>
+              <div className='row'>
+                <div className='col-md-6 results'>
                   XP: {this.state.results.xpGain}
-                            </div>
-                <div className="col-md-6 results">
+                </div>
+                <div className='col-md-6 results'>
                   Gold: {this.state.results.goldGain}
-                            </div>
+                </div>
               </div>
-              {this.state.levelUp && <div className="row">
-                <div className="col-md-12 results">
+              {this.state.levelUp && <div className='row'>
+                <div className='col-md-12 results'>
                   Level up!
                 </div>
               </div>}
-              <div className="row">
-                <div className="col-md-12">
-                  <div className="col">
-                    <Link className="btn-choice" to={{
-                      pathname: "/character",
-                    }} ><button className="btn btn-success mx-3" type="button">Play again</button></Link>
+              <div className='row'>
+                <div className='col-md-12'>
+                  <div className='col'>
+                    <Link className='btn-choice' to={{
+                      pathname: '/character',
+                    }} ><button className='btn btn-success mx-3' type='button'>Play again</button></Link>
                   </div>
                 </div>
               </div>
@@ -140,8 +141,8 @@ class Results extends Component {
           </div>
         </div>
       </div>
-    ) : ( <div id="loading"><img src={Loading}></img></div>)
+    ) : (<div id='loading'><img src={Loading} alt='Loading GIF'></img></div>)
   }
 }
 
-export default Results;
+export default Results
