@@ -1,5 +1,4 @@
 #stats-row {
-  height: 70vh;
   padding: 2rem;
   border: 3px solid black;
   border-radius: 10px;
@@ -7,6 +6,16 @@
   color: white;
 }
 
-#stats-row .col-4 {
+#stats-row > div {
   position: relative;
+}
+
+#stats-row canvas {
+  margin: 0 auto
+}
+
+@media only screen and (max-width: 420px) {
+  #stats-row {
+    margin: 0 auto;
+  }
 }

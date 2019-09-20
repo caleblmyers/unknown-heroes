@@ -96,3 +96,32 @@ h1, h2 {
   height: 200px;
   width: 175px;
 }
+
+@media only screen and (max-width: 1440px) {
+  #battle-enemy img {
+    margin-left: 0;
+    margin-top: 100%;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  #battle-enemy img {
+    margin-top: 20%;
+  }
+  #battle-hero {
+    top: 15%;
+  }
+  #attack-btn {
+    position: absolute;
+    top: 1rem;
+    left: 30%;
+  }
+  #defend-btn {
+    position: absolute;
+    bottom: 1rem;
+    right: 20%;
+  }
+  #attack-btn, #defend-btn {
+    font-size: calc(8px + (20 - 8) * ((100vw - 300px) / (1440 - 813)));
+  }
+}

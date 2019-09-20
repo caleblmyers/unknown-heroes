@@ -22,7 +22,7 @@ class Gameover extends Component {
     render() {
 
         return (
-            <div className="bg-scroll">
+            <div className="bg-scroll bg-tan h-100">
                 {/* <h1>End of The Game</h1> */}
                 <div className="container gameover-bg">
                     <div className="row">

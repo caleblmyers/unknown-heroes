@@ -114,7 +114,7 @@ class Stats extends Component {
     }
 
     return (
-      <div className="Stats bg-scroll indie-flower" >
+      <div className="Stats h-100 bg-scroll bg-tan indie-flower py-4" >
         {this.state.isLoading ? (
           <div>
             <h1>Loading...</h1>
@@ -123,7 +123,7 @@ class Stats extends Component {
             <div className="container">
               <div className="display-4">Character Stats</div>
               <div className="row" id="stats-row">
-                <div className="col-4">
+                <div className="col-12 col-md-4">
                   <div className="h2">Knight</div>
                   <div className="h5">Level: {this.state.heroes[0].level}</div>
                   <Bar
@@ -133,7 +133,7 @@ class Stats extends Component {
                     options={options}
                   />
                 </div>
-                <div className="col-4">
+                <div className="col-12 col-md-4">
                   <div className="h2">Thief</div>
                   <div className="h5">Level: {this.state.heroes[1].level}</div>
                   <Bar
@@ -143,7 +143,7 @@ class Stats extends Component {
                     options={options}
                   />
                 </div>
-                <div className="col-4">
+                <div className="col-12 col-md-4">
                   <div className="h2">Mage</div>
                   <div className="h5">Level: {this.state.heroes[2].level}</div>
                   <Bar

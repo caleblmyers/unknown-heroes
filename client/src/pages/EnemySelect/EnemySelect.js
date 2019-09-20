@@ -33,15 +33,12 @@ class EnemySelect extends Component {
     } else {
       API.Characters.getEnemies()
         .then(res => {
-          let enemies = []
-          res.data.forEach(enemy => {
-            enemies.push(enemy)
-          });
-
-          this.setState({ enemies })
+          this.setState({
+            enemies: res.data,
+            isLoaded: true
+          })
         })
         .catch(err => console.log(err))
-        .finally(() => this.setState({ isLoaded: true }))
     }
   }
 
@@ -64,31 +61,31 @@ class EnemySelect extends Component {
   }
 
   render() {
-    const { redirectToReferrer } = this.state
+    const { redirectToReferrer, isLoaded } = this.state
     if (redirectToReferrer) return <Redirect to="/" />
 
     return (
-      <div className="EnemySelect" id="enemybackground">
-        {this.state.isLoaded ? (
+      <div className="EnemySelect bg-tan" id="enemybackground">
+        {isLoaded ? (
           <div>
-            <div className="display-4">Enemy Select - You chose: {this.state.hero.name}</div>
+            <div className="page-title">Enemy Select - You chose: {this.state.hero.name}</div>
             <div className="row vh-75 no-gutters">
-              <div className="col-6">
+              <div className="col-12 col-md-6 mx-auto">
                 <div className="scroll-container">
                   <img src={Scroll} alt="Scroll with stats" />
                   <div id="stats-text">
-                    <div className="h2">Enemy: <strong>{this.state.enemies[this.state.enemy].name}</strong></div>
-                    <div>HP: {this.state.enemies[this.state.enemy].maxHp}</div>
-                    <div>Attack: {this.state.enemies[this.state.enemy].atk}</div>
-                    <div>Defense: {this.state.enemies[this.state.enemy].def}</div>
-                    <div>Accuracy: {this.state.enemies[this.state.enemy].acc}</div>
-                    <div>Evasion: {this.state.enemies[this.state.enemy].eva}</div>
-                    <div>Speed: {this.state.enemies[this.state.enemy].spd}</div>
+                    <div id="hero-name">Enemy: <strong>{this.state.enemies[this.state.enemy].name}</strong></div>
+                    <div className="stat">HP: {this.state.enemies[this.state.enemy].maxHp}</div>
+                    <div className="stat">Attack: {this.state.enemies[this.state.enemy].atk}</div>
+                    <div className="stat">Defense: {this.state.enemies[this.state.enemy].def}</div>
+                    <div className="stat">Accuracy: {this.state.enemies[this.state.enemy].acc}</div>
+                    <div className="stat">Evasion: {this.state.enemies[this.state.enemy].eva}</div>
+                    <div className="stat">Speed: {this.state.enemies[this.state.enemy].spd}</div>
                   </div>
                 </div>
               </div>
-              <div className="col-6">
-                <div className="model-container">
+              <div className="col-12 col-md-6">
+                <div className="enemy-container">
                   <img src={this.state.images[this.state.enemy]} alt={this.state.enemies[this.state.enemy].name} id="heromodel" />
                 </div>
               </div>

@@ -108,27 +108,27 @@ class CharacterSelect extends Component {
     }
 
     return (
-      <div className="CharacterSelect" id="characterbackground">
+      <div className="CharacterSelect bg-tan" id="characterbackground">
         {this.state.isLoaded ? (
           <div>
-            <div className="display-4">Character Select</div>
+            <div className="page-title">Character Select</div>
             <div className="row vh-75 no-gutters">
-              <div className="col-6">
+              <div className="col-12 col-md-6 mx-auto">
                 <div className="scroll-container">
                   <img src={Scroll} alt="Scroll with stats" />
                   <div id="stats-text">
-                    <div className="h2">Hero: <strong>{this.state.heroes[this.state.heroClass].name}</strong></div>
-                    <div>Level: {this.state.heroes[this.state.heroClass].level}</div>
-                    <div>HP: {this.state.heroes[this.state.heroClass].maxHp}</div>
-                    <div>Attack: {this.state.heroes[this.state.heroClass].atk}</div>
-                    <div>Defense: {this.state.heroes[this.state.heroClass].def}</div>
-                    <div>Accuracy: {this.state.heroes[this.state.heroClass].acc}</div>
-                    <div>Evasion: {this.state.heroes[this.state.heroClass].eva}</div>
-                    <div>Speed: {this.state.heroes[this.state.heroClass].spd}</div>
+                    <div id="hero-name">Hero: <strong>{this.state.heroes[this.state.heroClass].name}</strong></div>
+                    <div className="stat">Level: {this.state.heroes[this.state.heroClass].level}</div>
+                    <div className="stat">HP: {this.state.heroes[this.state.heroClass].maxHp}</div>
+                    <div className="stat">Attack: {this.state.heroes[this.state.heroClass].atk}</div>
+                    <div className="stat">Defense: {this.state.heroes[this.state.heroClass].def}</div>
+                    <div className="stat">Accuracy: {this.state.heroes[this.state.heroClass].acc}</div>
+                    <div className="stat">Evasion: {this.state.heroes[this.state.heroClass].eva}</div>
+                    <div className="stat">Speed: {this.state.heroes[this.state.heroClass].spd}</div>
                   </div>
                 </div>
               </div>
-              <div className="col-6">
+              <div className="col-12 col-md-6">
                 <div className="model-container">
                   <img src={this.state.images[this.state.heroClass]} alt={this.state.heroes[this.state.heroClass].name} id="heromodel" />
                 </div>

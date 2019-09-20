@@ -1,5 +1,4 @@
 #characterbackground {
-  background: url("./scroll.jpg");
   background-repeat: no-repeat;
   background-size: 100%;
   height: 100%;
@@ -22,7 +21,6 @@
 }
   
 #characterbackground {
-  background: url("./scroll.jpg");
   background-repeat: no-repeat;
   background-size: 100%;
   height: 100%;
@@ -41,6 +39,7 @@
   
 .vh-75 {
   height: 75vh;
+  max-height: 500px
 }
   
 .scroll-container {
@@ -63,6 +62,13 @@
   left: 10%;
 }
   
+.enemy-container {
+  height: 80%;
+  position: absolute;
+  top: 0%;
+  left: 10%;
+}
+  
 #stats-text {
   position: absolute;
   z-index: 999;
@@ -72,7 +78,13 @@
   top: 18%;
   text-align: center;
   width: 60%;
-  font-size: calc(16px + (30 - 16) * ((100vw - 300px) / (1600 - 300)));
+}
+
+#hero-name {
+  font-size: calc(14px + (24 - 14) * ((100vw - 300px) / (1440 - 813)));
+}
+.stat {
+  font-size: calc(8px + (14 - 8) * ((100vw - 300px) / (1440 - 813)));
 }
   
 #heromodel {
@@ -86,4 +98,33 @@
 #statsbackground {
   height: 65vh;
   width: 50vh;
+}
+
+.mw-50 {
+  max-width: 50vw;
+}
+
+.page-title {
+  font-size: calc(40px + (48 - 40) * ((100vw - 300px) / (1920 - 813)));
+}
+
+@media only screen and (max-width: 813px) {
+  .vh-75 {
+    max-height: 400px;
+  }
+  .scroll-container {
+    right: 33%;
+  }
+  #heromodel {
+    width: auto
+  }
+  #enemymodel {
+    width: auto
+  }
+  .model-container {
+    left: 30%
+  }
+  .enemy-container {
+    left: 20%
+  }
 }

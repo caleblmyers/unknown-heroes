@@ -96,7 +96,7 @@ class Results extends Component {
    
     return this.state.results.hero ? (
       
-      <div className="bg-scroll">
+      <div className="bg-scroll bg-tan h-100">
         <h1>Results Details</h1>
         <div className="container results-bg">
           <div className="row">
