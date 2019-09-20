@@ -32,7 +32,6 @@ class Results extends Component {
   componentDidMount() {
     this.sound.play()
     let heroImage
-    console.log(this.state.hero.name)
 
     if (!this.props.location.state) return
     API.Users.sendResults(this.props.location.state.results, this.props.location.state.id)
@@ -45,18 +44,15 @@ class Results extends Component {
           .then(stats => {
             const { knightLevel, thiefLevel, mageLevel } = stats.data
             let levels = [knightLevel, thiefLevel, mageLevel]
-            let userStats = stats.data
             this.setState({
               KnightLv: levels[0],
               ThiefLv: levels[1],
               MageLv: levels[2]
             })
-            console.log(userStats)
 
             API.Characters.getCharacters(levels)
               .then(res => {
                 let currentHero = res.data.filter(hero => hero.name === this.props.location.state.results.hero.name)
-                console.log(currentHero)
 
                 this.setState({
                   results: this.props.location.state.results,
@@ -64,7 +60,7 @@ class Results extends Component {
                 })
               })
               .catch(err => console.log(err))
-              .finally(res => {
+              .finally(() => {
                 switch (this.props.location.state.results.hero.name) {
                   case 'Knight':
                     heroImage = this.state.heroImages[0]
@@ -78,11 +74,8 @@ class Results extends Component {
                   default:
                     heroImage = this.state.heroImages[0]
                 }
-                this.setState({
-                  heroImage
-                })
+                this.setState({ heroImage })
               })
-
           })
           .catch(err => console.log(err))
       })
@@ -94,54 +87,54 @@ class Results extends Component {
   }
 
   render() {
-
-    return this.state.results.hero ? (
-
-      <div className='bg-scroll bg-tan h-100'>
-        <h1>Results Details</h1>
-        <div className='container results-bg'>
-          <div className='row'>
-            <div className='col-md-4 stats'>
-              <ul>
-                <li>Name: {this.state.hero[0].name}</li>
-                <li>Level: {this.state[`${this.state.hero[0].name}Lv`]}</li>
-                <li>HP: {this.state.hero[0].maxHp}</li>
-                <li>Atk: {this.state.hero[0].atk}</li>
-                <li>Def: {this.state.hero[0].def}</li>
-                <li>Acc: {this.state.hero[0].acc}</li>
-                <li>Eva: {this.state.hero[0].eva}</li>
-                <li>Spd: {this.state.hero[0].spd}</li>
-              </ul>
-              <div id='results-hero'><img src={this.state.heroImage} alt='Hero Model'></img></div>
-            </div>
-            <div className='col-md-8'>
-              <div className='row'>
-                <div className='col-md-6 results'>
-                  XP: {this.state.results.xpGain}
-                </div>
-                <div className='col-md-6 results'>
-                  Gold: {this.state.results.goldGain}
-                </div>
+    return (
+      this.state.results.hero ? (
+        <div className='bg-scroll bg-tan h-100'>
+          <h1>Results Details</h1>
+          <div className='container results-bg'>
+            <div className='row'>
+              <div className='col-md-4 stats'>
+                <ul>
+                  <li>Name: {this.state.hero[0].name}</li>
+                  <li>Level: {this.state[`${this.state.hero[0].name}Lv`]}</li>
+                  <li>HP: {this.state.hero[0].maxHp}</li>
+                  <li>Atk: {this.state.hero[0].atk}</li>
+                  <li>Def: {this.state.hero[0].def}</li>
+                  <li>Acc: {this.state.hero[0].acc}</li>
+                  <li>Eva: {this.state.hero[0].eva}</li>
+                  <li>Spd: {this.state.hero[0].spd}</li>
+                </ul>
+                <div id='results-hero'><img src={this.state.heroImage} alt='Hero Model'></img></div>
               </div>
-              {this.state.levelUp && <div className='row'>
-                <div className='col-md-12 results'>
-                  Level up!
+              <div className='col-md-8'>
+                <div className='row'>
+                  <div className='col-md-6 results'>
+                    XP: {this.state.results.xpGain}
+                  </div>
+                  <div className='col-md-6 results'>
+                    Gold: {this.state.results.goldGain}
+                  </div>
                 </div>
-              </div>}
-              <div className='row'>
-                <div className='col-md-12'>
-                  <div className='col'>
-                    <Link className='btn-choice' to={{
-                      pathname: '/character',
-                    }} ><button className='btn btn-success mx-3' type='button'>Play again</button></Link>
+                {this.state.levelUp && <div className='row'>
+                  <div className='col-md-12 results'>
+                    Level up!
+                </div>
+                </div>}
+                <div className='row'>
+                  <div className='col-md-12'>
+                    <div className='col'>
+                      <Link className='btn-choice' to={{
+                        pathname: '/character',
+                      }} ><button className='btn btn-success mx-3' type='button'>Play again</button></Link>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    ) : (<div id='loading'><img src={Loading} alt='Loading GIF'></img></div>)
+      ) : (<div id='loading'><img src={Loading} alt='Loading GIF'></img></div>)
+    )
   }
 }
 

@@ -41,7 +41,6 @@ class CharacterSelect extends Component {
 
           API.Users.getHeroes(id)
             .then(res => {
-              console.log(res.data)
               let { knightLevel, knightExp, thiefLevel, thiefExp, mageLevel, mageExp } = res.data
               let userHeroes = []
 

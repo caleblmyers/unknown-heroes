@@ -1,31 +1,26 @@
-import React, { Component } from 'react';
-
-import Octicon, { Mail, Key } from '@githubprimer/octicons-react';
+import React, { Component } from 'react'
+import Octicon, { Mail, Key } from '@githubprimer/octicons-react'
 
 class RegistrationForm extends Component {
   state = {
     email: '',
     password: '',
     passwordConfirm: ''
-  };
+  }
 
   handleInputChange = event => {
-    const { name, value } = event.target;
-
-    this.setState({
-      [name]: value
-    });
+    const { name, value } = event.target
+    this.setState({ [name]: value })
   }
 
   handleSubmit = event => {
-    const { email, password, passwordConfirm } = this.state;
-
-    this.props.onSubmit(email, password, passwordConfirm);
-    event.preventDefault();
+    const { email, password, passwordConfirm } = this.state
+    this.props.onSubmit(email, password, passwordConfirm)
+    event.preventDefault()
   }
 
   render() {
-    const { email, password, passwordConfirm } = this.state;
+    const { email, password, passwordConfirm } = this.state
 
     return (
       <div className='LoginForm'>
@@ -86,4 +81,4 @@ class RegistrationForm extends Component {
   }
 }
 
-export default RegistrationForm;
+export default RegistrationForm

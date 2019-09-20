@@ -25,12 +25,6 @@ mongoose.connect(
   'mongodb://localhost/unknownheroes'
 )
 
-//-- Use this one for heroku deployment
-// mongoose.connect(
-//   process.env.MONGODB_URI ||
-//   'mongodb://user:password1@ds157895.mlab.com:57895/heroku_t0p6qtj6'
-// )
-
 mongoose.connection.on('error', err => {
   console.log(`Mongoose connection err:\n${err}`)
 })
@@ -42,11 +36,11 @@ app.use(express.json())
 app.use(passport.initialize())
 
 //-- Static Server (Production) ----------------------------------------------
-if (process.env.NODE_ENV === 'production') {
-  const clientBuildPath = path.join(__dirname, '..', 'client', 'build')
-  console.log(`Client build path: ${clientBuildPath}\n`)
-  app.use(express.static(clientBuildPath))
-}
+// if (process.env.NODE_ENV === 'production') {
+//   const clientBuildPath = path.join(__dirname, '..', 'client', 'build')
+//   console.log(`Client build path: ${clientBuildPath}\n`)
+//   app.use(express.static(clientBuildPath))
+// }
 
 //-- Controller Routes -------------------------------------------------------
 app.use(require('./controllers'))

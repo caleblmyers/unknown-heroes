@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-
 import Octicon, { Mail, Key } from '@githubprimer/octicons-react';
-
-
 
 class LoginForm extends Component {
   state = {
@@ -12,15 +9,11 @@ class LoginForm extends Component {
 
   handleInputChange = event => {
     const { name, value } = event.target;
-
-    this.setState({
-      [name]: value
-    });
+    this.setState({ [name]: value });
   }
 
   handleSubmit = event => {
     const { email, password } = this.state;
-
     this.props.onSubmit(email, password);
     event.preventDefault();
   }
@@ -29,10 +22,8 @@ class LoginForm extends Component {
     const { email, password } = this.state;
 
     return (
-     
-       <div className='LoginForm'>
-
-         <div className='card'>
+      <div className='LoginForm'>
+        <div className='card'>
           <div className='card-body'>
             <form className='LoginForm' onSubmit={this.handleSubmit}>
               <div className='input-group mb-3'>
@@ -68,13 +59,10 @@ class LoginForm extends Component {
               <button className='btn btn-primary' type='submit'>Login</button>
             </form>
           </div>
-        </div> 
-       </div> 
-
-        )
-
+        </div>
+      </div>
+    )
   }
 }
 
 export default LoginForm;
-

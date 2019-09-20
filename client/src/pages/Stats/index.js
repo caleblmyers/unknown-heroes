@@ -31,23 +31,22 @@ class Stats extends Component {
         API.Users.getHeroes(id)
           .then(res => {
             let { knightLevel, knightExp, thiefLevel, thiefExp, mageLevel, mageExp } = res.data
-            let heroes = []
 
-            heroes[0] = {
+            let heroes = [{
               name: 'Knight',
               level: knightLevel,
               exp: knightExp
-            }
-            heroes[1] = {
+            },
+            {
               name: 'Thief',
               level: thiefLevel,
               exp: thiefExp
-            }
-            heroes[2] = {
+            },
+            {
               name: 'Mage',
               level: mageLevel,
               exp: mageExp
-            }
+            }]
 
             API.Characters.getCharacters([knightLevel, thiefLevel, mageLevel])
               .then(res => {
@@ -77,7 +76,6 @@ class Stats extends Component {
                   heroes,
                   chartData
                 })
-                console.log(this.state.chartData)
               })
               .catch(err => console.log(err))
               .finally(() => {

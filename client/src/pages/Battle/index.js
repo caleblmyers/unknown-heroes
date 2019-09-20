@@ -75,14 +75,15 @@ class Battle extends Component {
       heroImage,
       enemyImage
     })
-    API.Battle.battleStart(this.state.match.hero, this.state.match.enemy)
-      .then(res => console.log(res.data))
-      .catch(err => console.log(err))
 
-    this.setState({
-      heroHp: this.state.match.hero.maxHp,
-      enemyHp: this.state.match.enemy.maxHp
-    })
+    API.Battle.battleStart(this.state.match.hero, this.state.match.enemy)
+      .then(res => {
+        this.setState({
+          heroHp: this.state.match.hero.maxHp,
+          enemyHp: this.state.match.enemy.maxHp
+        })
+      })
+      .catch(err => console.log(err))
   }
 
   componentWillUnmount() {
@@ -97,110 +98,86 @@ class Battle extends Component {
       textCounter: 0
     })
 
-    API.Battle.attack().then((res) => {
-      this.typeWriter(` ${res.data.playerMessage} ${res.data.enemyMessage} ${res.data.playerDead}`)
+    API.Battle.attack()
+      .then(res => {
+        this.typeWriter(` ${res.data.playerMessage} ${res.data.enemyMessage} ${res.data.playerDead}`)
 
-      let hele = document.getElementById('battle-hero')
-      hele.style.left = '12%'
-      setTimeout(() => {
-        hele.style.left = '2%'
-      }, 200)
+        let $hero = document.getElementById('battle-hero')
+        let $enemy = document.getElementById('battle-enemy')
 
-      setTimeout(() => {
+        $hero.style.left = '12%'
+        setTimeout(() => $hero.style.left = '2%', 200)
+
         if (res.data.playerMessage.includes('damage')) {
-          this.slash.play()
-          let eele = document.getElementById('battle-enemy')
-          eele.style.opacity = 0
           setTimeout(() => {
-            let flash = setInterval(function () {
-              if (eele.style.opacity === '0') {
-                eele.style.opacity = 1
-              }
-              else {
-                eele.style.opacity = 0
-              }
-            }, 100)
-            setTimeout(() => {
-              clearInterval(flash)
-            }, 300)
-          }, 100)
-        }
-      }, 300)
-
-      setTimeout(() => {
-        let eele = document.getElementById('battle-enemy')
-        if (this.state.enemyHp > 0) {
-          eele.style.opacity = 1
-          eele.style.right = '10%'
-          setTimeout(() => {
-            eele.style.right = '0%'
-          }, 300)
-        } else {
-          this.dead.play()
-          eele.style.opacity = 0
-        }
-
-        setTimeout(() => {
-          if (res.data.enemyMessage.includes('damage')) {
             this.slash.play()
-            let hele = document.getElementById('battle-hero')
-            hele.style.opacity = 0
+            $enemy.style.opacity = 0
             setTimeout(() => {
-              let flash = setInterval(function () {
-                if (hele.style.opacity === '0') {
-                  hele.style.opacity = 1
-                }
-                else {
-                  hele.style.opacity = 0
-                }
+              let flash = setInterval(() => {
+                $enemy.style.opacity === '0' ? $enemy.style.opacity = 1 : $enemy.style.opacity = 0
               }, 100)
-              setTimeout(() => {
-                clearInterval(flash)
-              }, 300)
+              setTimeout(() => clearInterval(flash), 300)
             }, 100)
-          }
-        }, 400)
-
-      }, (res.data.playerMessage.length * 50))
-
-
-      this.setState({
-        heroHp: res.data.playerHp,
-        enemyHp: res.data.enemyHp
-      })
-      if (res.data.gameOver === true) {
-        if (res.data.enemyHp <= 0) {
-          this.setState({
-            results: {
-              hero: this.state.match.hero,
-              roundWon: true,
-              xpGain: this.state.match.enemy.exp,
-              goldGain: this.state.match.enemy.gold
-            },
-            resultsLink: '/results'
-          })
-        } else {
-          this.setState({
-            results: {
-              hero: this.state.match.hero,
-              roundWon: false,
-              xpGain: 0,
-              goldGain: 0
-            },
-            resultsLink: '/gameover'
-          })
+          }, 300)
         }
+
         setTimeout(() => {
-          this.setState({
-            gameOver: true
-          })
-        }, 4000)
-      }
-    })
+          if (this.state.enemyHp > 0) {
+            $enemy.style.right = '10%'
+            setTimeout(() => $enemy.style.right = '0%', 300)
+          } else {
+            this.dead.play()
+            $enemy.style.opacity = 0
+          }
+
+          setTimeout(() => {
+            if (res.data.enemyMessage.includes('damage')) {
+              this.slash.play()
+              $hero.style.opacity = 0
+              setTimeout(() => {
+                let flash = setInterval(function () {
+                  $hero.style.opacity === '0' ? $hero.style.opacity = 1 : $hero.style.opacity = 0
+                }, 100)
+                setTimeout(() => clearInterval(flash), 300)
+              }, 100)
+            }
+          }, 400)
+        }, (res.data.playerMessage.length * 50))
+
+        this.setState({
+          heroHp: res.data.playerHp,
+          enemyHp: res.data.enemyHp
+        })
+
+        if (res.data.gameOver === true) {
+          if (res.data.enemyHp <= 0) {
+            this.setState({
+              results: {
+                hero: this.state.match.hero,
+                roundWon: true,
+                xpGain: this.state.match.enemy.exp,
+                goldGain: this.state.match.enemy.gold
+              },
+              resultsLink: '/results'
+            })
+          } else {
+            this.setState({
+              results: {
+                hero: this.state.match.hero,
+                roundWon: false,
+                xpGain: 0,
+                goldGain: 0
+              },
+              resultsLink: '/gameover'
+            })
+          }
+          setTimeout(() => this.setState({ gameOver: true }), 3000)
+        }
+      })
 
     setTimeout(() => {
-      let hele = document.getElementById('battle-hero')
-      hele.style.opacity = 1
+      let $hero = document.getElementById('battle-hero')
+      $hero.style.opacity = 1
     }, 1000)
   }
 
@@ -215,45 +192,36 @@ class Battle extends Component {
     API.Battle.defend().then((res) => {
       this.typeWriter(` ${res.data.playerMessage} ${res.data.enemyMessage} ${res.data.playerDead}`)
 
+      let $hero = document.getElementById('battle-hero')
+      let $enemy = document.getElementById('battle-enemy')
+
       setTimeout(() => {
-        let eele = document.getElementById('battle-enemy')
         if (this.state.enemyHp > 0) {
-          eele.style.opacity = 1
-          eele.style.right = '10%'
-          setTimeout(() => {
-            eele.style.right = '0%'
-          }, 300)
-        } else {
-          eele.style.opacity = 0
-        }
+          $enemy.style.opacity = 1
+          $enemy.style.right = '10%'
+          setTimeout(() => $enemy.style.right = '0%', 300)
+        } else $enemy.style.opacity = 0
 
         setTimeout(() => {
           if (res.data.enemyMessage.includes('damage')) {
             this.slash.play()
-            let hele = document.getElementById('battle-hero')
-            hele.style.opacity = 0
+            $hero.style.opacity = 0
             setTimeout(() => {
               let flash = setInterval(function () {
-                if (hele.style.opacity === '0') {
-                  hele.style.opacity = 1
-                }
-                else {
-                  hele.style.opacity = 0
-                }
+                if ($hero.style.opacity === '0') $hero.style.opacity = 1
+                else $hero.style.opacity = 0
               }, 100)
-              setTimeout(() => {
-                clearInterval(flash)
-              }, 300)
+              setTimeout(() => clearInterval(flash), 300)
             }, 100)
           }
         }, 300)
-
       }, (res.data.playerMessage.length * 50))
 
       this.setState({
         heroHp: res.data.playerHp,
         enemyHp: res.data.enemyHp
       })
+
       if (res.data.gameOver === true) {
         if (res.data.enemyHp <= 0) {
           this.setState({
@@ -276,16 +244,13 @@ class Battle extends Component {
             resultsLink: '/gameover'
           })
         }
-        setTimeout(() => {
-          this.setState({
-            gameOver: true
-          })
-        }, 4000)
+        setTimeout(() => this.setState({ gameOver: true }), 2000)
       }
     })
+
     setTimeout(() => {
-      let hele = document.getElementById('battle-hero')
-      hele.style.opacity = 1
+      let $hero = document.getElementById('battle-hero')
+      $hero.style.opacity = 1
     }, 1000)
   }
 
@@ -299,17 +264,13 @@ class Battle extends Component {
         textCounter: i + 1,
       })
       setTimeout(() => this.typeWriter(newText), speed)
-    } else {
-      this.setState({ roundActive: false })
-    }
-
+    } else this.setState({ roundActive: false })
   }
 
   render() {
     if (!this.context.user) return <Redirect to='/' />
     const { hero, enemy } = this.state.match
     const { combatText } = this.state
-
 
     return (
       <div className='Battle'>
@@ -355,7 +316,7 @@ class Battle extends Component {
                   <div className='border border-dark bg-tan rounded' id='action-text'>
                     <div id='text-box'>
                       <div className='container'>
-                        <p className='text-left lead' id='typewriter'>{combatText.split('.').map(text => <p> {text}</p>)}</p>
+                        <div className='text-left lead' id='typewriter'>{combatText.split('.').map(text => <p key={text}> {text}</p>)}</div>
                       </div>
                     </div>
                   </div>
