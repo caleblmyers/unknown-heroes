@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import "./register.css";
 
+import "./register.css";
 import API from '../../lib/API';
 import AuthContext from '../../contexts/AuthContext';
-import RegistrationForm from '../../components/RegistrationForm/RegistrationForm';
+import RegistrationForm from '../../components/RegistrationForm';
 
 class Register extends Component {
   static contextType = AuthContext;
@@ -38,7 +38,7 @@ class Register extends Component {
       <div className='Login' id="registerbackground">
         <div className='row no-gutters'>
           <div className='col'>
-            <h1>Register Account</h1>
+            <div className='h1 text-white' id='logintext'>Register Account</div>
           </div>
         </div>
         {this.state.error &&

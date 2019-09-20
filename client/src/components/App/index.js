@@ -1,24 +1,22 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
+import './App.css';
 import API from '../../lib/API';
 import TokenStore from '../../lib/TokenStore';
 import AuthContext from '../../contexts/AuthContext';
-import Navigation from '../../components/Navigation/Navigation';
-import PrivateRoute from '../../components/PrivateRoute/PrivateRoute';
-import Home from '../../pages/Home/Home';
-import Login from '../../pages/Login/Login';
-import Register from '../../pages/Register/Register';
-import CharacterSelect from '../../pages/CharacterSelect/CharacterSelect';
-import EnemySelect from '../../pages/EnemySelect/EnemySelect';
-import Battle from '../../pages/Battle/Battle';
-import NotFound from '../../pages/NotFound/NotFound';
-import Results from '../../pages/Results/Results';
-import Gameover from '../../pages/Gameover/Gameover';
-import Stats from '../../pages/Stats/Stats';
-
-
-import './App.css';
+import Navigation from '../Navigation';
+import PrivateRoute from '../PrivateRoute';
+import Home from '../../pages/Home';
+import Login from '../../pages/Login';
+import Register from '../../pages/Register';
+import CharacterSelect from '../../pages/CharacterSelect';
+import EnemySelect from '../../pages/EnemySelect';
+import Battle from '../../pages/Battle';
+import Results from '../../pages/Results';
+import Gameover from '../../pages/Gameover';
+import Stats from '../../pages/Stats';
+import NotFound from '../../pages/NotFound';
 
 class App extends Component {
   constructor(props) {
@@ -56,7 +54,6 @@ class App extends Component {
 
   render() {
     const navSize = (this.state.auth.user && window.innerWidth > 992)  ? "nav-lg" : "nav-sm"
-    console.log(navSize)
     return (
       <AuthContext.Provider value={this.state.auth}>
         <div className='App'>

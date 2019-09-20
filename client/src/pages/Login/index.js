@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import "./login.css";
 
+import "./login.css";
 import API from '../../lib/API';
 import AuthContext from '../../contexts/AuthContext';
-import LoginForm from '../../components/LoginForm/LoginForm';
+import LoginForm from '../../components/LoginForm';
 
 class Login extends Component {
   static contextType = AuthContext;
@@ -53,10 +53,10 @@ class Login extends Component {
 
     return (
 
-      <div className='Login' id="loginbackground">
+      <div className='Login text-white' id="loginbackground">
         <div className='row no-gutters'>
           <div className='col'>
-            <h1 id="logintext">Login</h1>
+            <div className="h1" id="logintext">Login</div>
           </div>
         </div>
 
