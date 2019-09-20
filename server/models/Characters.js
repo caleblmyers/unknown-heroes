@@ -1,6 +1,6 @@
-var mongoose = require('mongoose');
+var mongoose = require('mongoose')
 
-var Schema = mongoose.Schema;
+var Schema = mongoose.Schema
 
 var CharactersSchema = new Schema({
     name: {
@@ -59,6 +59,6 @@ var CharactersSchema = new Schema({
     }
 })
 
-var Characters = mongoose.model('Characters', CharactersSchema);
+var Characters = mongoose.model('Characters', CharactersSchema)
 
-module.exports = Characters;
+module.exports = Characters

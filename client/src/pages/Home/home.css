@@ -1,6 +1,5 @@
-
 #homepage {
-  background: url("./amman-ancient-antique.jpg");
+  background-color: rgb(51, 92, 228);
   background-repeat: no-repeat;
   background-size: cover;
   height: 100%;
@@ -30,7 +29,7 @@
   position: relative;
   width: 100%;
   min-height: 60vh;
-  top: -35px;
+  top: -5px;
 }
 
 .starwars-affect {

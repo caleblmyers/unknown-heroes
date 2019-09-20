@@ -1,40 +1,30 @@
 battlefunctions = {
-    random(min, max) {
-        return Math.floor((Math.random() * max) + min)
-    },
+  random(min, max) {
+    return Math.floor((Math.random() * max) + min)
+  },
 
-    accuracy(attacker, defender) {
-        let hitRate = 75 + ((attacker.acc - defender.eva)*3);
-        console.log(`hitRate ${hitRate}`)
-        let accCheck = battlefunctions.random(1, 100);
-        console.log(`accCheck ${accCheck}`)
-        if (accCheck <= hitRate) {
-            return true;
-        } else {
-            return false;
-        }
-    },
+  accuracy(attacker, defender) {
+    let hitRate = 75 + ((attacker.acc - defender.eva) * 3)
 
-    attack(attacker, defender) {
-        let damage = (battlefunctions.random(1,5) + (attacker.atk - defender.def));
-        if (damage < 0) {
-            return 0;
-        } else {
-            return damage;
-        }   
-    },
+    let accCheck = battlefunctions.random(1, 100)
 
-    defend(attacker) {
-        let heal = Math.floor(attacker.hp*0.1)
-        if (heal < 1) {
-            return 1;
-        } else {
-            return heal;
-        }
-    }
+    
+    if (accCheck <= hitRate) return true
+    return false
+  },
 
+  attack(attacker, defender) {
+    let damage = (battlefunctions.random(1, 5) + (attacker.atk - defender.def))
+
+    
+    if (damage < 0) return 0
+    return damage
+
+  },
+
+  defend(attacker) {
+    return Math.floor(attacker.atk + battlefunctions.random(0, attacker.level))
+  }
 }
 
-module.exports = battlefunctions;
-
-
+module.exports = battlefunctions

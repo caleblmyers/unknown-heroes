@@ -1,12 +1,11 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 
 const UserSchema = new Schema({
   email: {
     type: String,
     trim: true,
     required: 'Email address is required',
-    // unique: true
   },
   password: {
     type: String,
@@ -47,18 +46,17 @@ const UserSchema = new Schema({
 
 class newUser {
   constructor({ id, email, password }) {
-    this.id = id;
-    this.email = email;
-    this.password = password;
+    this.id = id
+    this.email = email
+    this.password = password
   }
 
   comparePassword(challenge) {
-    return this.password === challenge;
+    return this.password === challenge
   }
 }
 
-UserSchema.loadClass(newUser);
-let User = mongoose.model('User', UserSchema);
+UserSchema.loadClass(newUser)
+let User = mongoose.model('User', UserSchema)
 
-
-module.exports = User;
+module.exports = User

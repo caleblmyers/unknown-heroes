@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from "react-router-dom"
+
 import "./charactermodel.css"
-import "./index.css"
 import AuthContext from '../../contexts/AuthContext';
 import API from "../../lib/API"
 import Knight from "../../img/knight_idle.png"
 import Mage from "../../img/mage_idle.png"
-// import Thief from "../../img/thief_idle.png"
 import ThiefSm from "../../img/thief_sm.png"
 import Scroll from "../../img/stats-scroll.png"
 import TokenStore from "../../lib/TokenStore"

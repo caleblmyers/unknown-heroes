@@ -1,131 +1,117 @@
-const battleController = require('express').Router();
-const battlefunctions = require('../../logic/battlefunctions');
+const battleController = require('express').Router()
+const battlefunctions = require('../../logic/battlefunctions')
+
+let player
+let enemy
+let received
 
 battleController.post("/start", (req, res) => {
-    player = req.body.hero;
-    enemy = req.body.enemy;
-    plvl = req.body.level;
-    console.log(`Level = ${plvl}`)
-    player.hp = player.maxHp
-    //  + ((plvl - 1) * player.hpMod);
-    // player.mp = player.maxMp + (plvl * player.mpMod);
-    // player.atk = player.atk + ((plvl - 1) * player.atkMod);
-    // player.def = player.def + ((plvl - 1) * player.defMod);
-    // player.acc = player.acc + ((plvl - 1) * player.accMod);
-    // player.eva = player.eva + ((plvl - 1) * player.evaMod);
-    // player.spd = player.spd + ((plvl - 1) * player.spdMod);
-    enemy.hp = enemy.maxHp;
-    console.log(player);
-    console.log(enemy);
+  player = req.body.hero
+  player.hp = player.maxHp
+  enemy = req.body.enemy
+  enemy.hp = enemy.maxHp
+  received = true
 
-    received = true;
-
-    res.send({
-        received: received
-    })
+  res.send({
+    received: received
+  })
 })
 
 battleController.get("/attack", (req, res) => {
-    let gameOver = false;
-    playerDead = '';
+  let gameOver = false
+  let playerDead = ''
+  let playerMessage = ''
+  let enemyMessage = ''
+  let damage
 
-    playerAccCheck = battlefunctions.accuracy(player, enemy);
-    enemyAccCheck = battlefunctions.accuracy(enemy, player);
-    if (playerAccCheck) {
-        damage = battlefunctions.attack(player, enemy);
-        enemy.hp = enemy.hp - damage;
-        playerMessage = `The ${player.name} hits the ${enemy.name} for ${damage} damage.`;
+  let playerAccCheck = battlefunctions.accuracy(player, enemy)
+  let enemyAccCheck = battlefunctions.accuracy(enemy, player)
+
+  if (playerAccCheck) {
+    damage = battlefunctions.attack(player, enemy)
+    enemy.hp -= damage
+    playerMessage = `The ${player.name} hits the ${enemy.name} for ${damage} damage.`
+  } else {
+    playerMessage = `The ${player.name} misses the ${enemy.name}.`
+  }
+
+  if (enemy.hp <= 0) {
+    enemy.hp = 0
+    enemyMessage = `The ${enemy.name} is knocked out!`
+    gameOver = true
+  } else {
+    if (enemyAccCheck) {
+      damage = battlefunctions.attack(enemy, player)
+      player.hp -= damage
+      enemyMessage = `The ${enemy.name} hits the ${player.name} for ${damage} damage.`
     } else {
-        playerMessage = `The ${player.name} misses the ${enemy.name}.`;
+      enemyMessage = `The ${enemy.name} misses the ${player.name}.`
     }
+  }
 
-    if (enemy.hp > 0) {
-        if (enemyAccCheck) {
-            damage = battlefunctions.attack(enemy, player);
-            player.hp = player.hp - damage;
-            enemyMessage = `The ${enemy.name} hits the ${player.name} for ${damage} damage.`;
-        } else {
-            enemyMessage = `The ${enemy.name} misses the ${player.name}.`;
-        }
-    } else {
-        enemy.hp = 0;
-        enemyMessage = `The ${enemy.name} is knocked out!`;
-        gameOver = true;
-    }
+  if (player.hp <= 0) {
+    player.hp = 0
+    gameOver = true
+    playerDead = `The ${player.name} is knocked out!`
+  }
 
-    if (player.hp <= 0) {
-        player.hp = 0;
-        gameOver = true;
-        playerDead = `The ${player.name} is knocked out!`;
-    }
+  received = true
 
-    received = true;
-
-    res.send({
-        playerHp: player.hp,
-        enemyHp: enemy.hp,
-        playerMessage: playerMessage,
-        enemyMessage: enemyMessage,
-        playerDead: playerDead,
-        gameOver: gameOver,
-        received: received
-    })
+  res.send({
+    playerHp: player.hp,
+    enemyHp: enemy.hp,
+    playerMessage: playerMessage,
+    enemyMessage: enemyMessage,
+    playerDead: playerDead,
+    gameOver: gameOver,
+    received: received
+  })
 })
 
 battleController.get("/defend", (req, res) => {
-    let gameOver = false;
-    playerDead = '';
+  let gameOver = false
+  let playerDead = ''
+  let playerMessage = ''
+  let enemyMessage = ''
+  let damage
 
-    // playerAccCheck = battlefunctions.accuracy(player, enemy);
-    enemyAccCheck = battlefunctions.accuracy(enemy, player);
-    // if (playerAccCheck) {
-    //     damage = battlefunctions.attack(player, enemy);
-    //     enemy.hp = enemy.hp - damage;
-    //     playerMessage = `The ${player.name} hits the ${enemy.name} for ${damage} damage.`;
-    // } else {
-    //     playerMessage = `The ${player.name} misses the ${enemy.name}.`;
-    // }
+  let healed = battlefunctions.defend(player)
+  let enemyAccCheck = battlefunctions.accuracy(enemy, player)
 
-    healed = battlefunctions.defend(player);
-    player.hp = player.hp + healed;
-    if (player.hp > player.maxHp) {
-        player.hp = player.maxHp;
-    }
-    playerMessage = `The ${player.name} restores ${healed}hp. The ${player.name} braces for the attack.`;
+  player.hp += healed
+  playerMessage = `The ${player.name} restores ${healed}hp. The ${player.name} braces for the attack.`
 
-
-    if (enemy.hp > 0) {
-        if (enemyAccCheck) {
-            damage = Math.floor((battlefunctions.attack(enemy, player))/2);
-            player.hp = player.hp - damage;
-            enemyMessage = `The ${enemy.name} hits the ${player.name} for ${damage} damage.`;
-        } else {
-            enemyMessage = `The ${enemy.name} misses the ${player.name}.`;
-        }
+  if (enemy.hp <= 0) {
+    enemy.hp = 0
+    enemyMessage = `${enemy.name} is knocked out!`
+    gameOver = true
+  } else {
+    if (enemyAccCheck) {
+      damage = Math.floor((battlefunctions.attack(enemy, player)) / 2)
+      player.hp = player.hp - damage
+      enemyMessage = `The ${enemy.name} hits the ${player.name} for ${damage} damage.`
     } else {
-        enemy.hp = 0;
-        enemyMessage = `${enemy.name} is knocked out!`;
-        gameOver = true;
+      enemyMessage = `The ${enemy.name} misses the ${player.name}.`
     }
+  }
 
-    if (player.hp <= 0) {
-        player.hp = 0;
-        gameOver = true;
-        playerDead = ` ${player.name} is knocked out!`;
-    }
+  if (player.hp <= 0) {
+    player.hp = 0
+    gameOver = true
+    playerDead = ` ${player.name} is knocked out!`
+  }
 
-    received = true;
+  received = true
 
-    res.send({
-        playerHp: player.hp,
-        enemyHp: enemy.hp,
-        playerMessage: playerMessage,
-        enemyMessage: enemyMessage,
-        playerDead: playerDead,
-        gameOver: gameOver,
-        received: received
-    })
+  res.send({
+    playerHp: player.hp,
+    enemyHp: enemy.hp,
+    playerMessage: playerMessage,
+    enemyMessage: enemyMessage,
+    playerDead: playerDead,
+    gameOver: gameOver,
+    received: received
+  })
 })
 
-
-module.exports = battleController;
+module.exports = battleController

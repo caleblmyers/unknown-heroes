@@ -71,7 +71,7 @@ class Battle extends Component {
       heroImage,
       enemyImage
     })
-    API.Battle.battleStart(this.state.match.hero, this.state.match.enemy, this.props.location.state.herolv)
+    API.Battle.battleStart(this.state.match.hero, this.state.match.enemy)
       .then(res => console.log(res.data))
       .catch(err => console.log(err))
 

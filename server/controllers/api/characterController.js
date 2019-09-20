@@ -1,6 +1,6 @@
-const characterController = require('express').Router();
+const characterController = require('express').Router()
+const db = require('../../models')
 
-const db = require('../../models');
 characterController.post('/', (req, res) => {
   const [...levels] = req.body.levels
   db.Characters.find({
@@ -23,10 +23,9 @@ characterController.post('/', (req, res) => {
       stats[i].spd += stats[i].spdMod * (levels[i] - 1)
     }
 
-    console.log(stats)
-    res.json(stats);
-  });
-});
+    res.json(stats)
+  })
+})
 
 characterController.get('/enemies', (req, res) => {
   db.Characters.find({
@@ -37,9 +36,8 @@ characterController.get('/enemies', (req, res) => {
     }
   }, function (err, enemy) {
     if (err) throw err
-    res.json(enemy);
-  });
-});
+    res.json(enemy)
+  })
+})
 
-
-module.exports = characterController;
+module.exports = characterController
