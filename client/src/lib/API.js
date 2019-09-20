@@ -1,13 +1,13 @@
-import axios from 'axios';
+import axios from 'axios'
 
 export default {
   Users: {
     login: function (email, password) {
-      return axios.post('/api/users/login', { email, password });
+      return axios.post('/api/users/login', { email, password })
     },
 
     create: function (email, password) {
-      return axios.post('/api/users', { email, password });
+      return axios.post('/api/users', { email, password })
     },
 
     getMe: function (authToken) {
@@ -15,7 +15,7 @@ export default {
         headers: {
           'Authorization': `Bearer ${authToken}`
         }
-      });
+      })
     },
     getHeroes: function (id) {
       return axios.get(`/api/users/${id}`)
@@ -40,7 +40,7 @@ export default {
         headers: {
           'Authorization': `Bearer ${authToken}`
         }
-      });
+      })
     }
   },
   Monster: {

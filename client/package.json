@@ -1,5 +1,5 @@
 {
-  "name": "project-3-client",
+  "name": "unknown-heroes-client",
   "version": "0.1.0",
   "private": true,
   "proxy": "http://localhost:3001",
