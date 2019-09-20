@@ -29,9 +29,8 @@ class CharacterSelect extends Component {
 
   componentDidMount() {
     this.sound.play()
-    if (!this.context.user) {
-      this.setState({ redirectToReferrer: true })
-    } else {
+    if (!this.context.user) this.setState({ redirectToReferrer: true })
+    else {
       const authToken = TokenStore.getToken()
       let id
 
@@ -69,9 +68,7 @@ class CharacterSelect extends Component {
                     }
                   }
 
-                  this.setState({
-                    heroes: userHeroes
-                  })
+                  this.setState({ heroes: userHeroes })
                 })
                 .catch(err => console.log(err))
                 .finally(() => this.setState({ isLoaded: true }))

@@ -36,11 +36,11 @@ app.use(express.json())
 app.use(passport.initialize())
 
 //-- Static Server (Production) ----------------------------------------------
-// if (process.env.NODE_ENV === 'production') {
-//   const clientBuildPath = path.join(__dirname, '..', 'client', 'build')
-//   console.log(`Client build path: ${clientBuildPath}\n`)
-//   app.use(express.static(clientBuildPath))
-// }
+if (process.env.NODE_ENV === 'production') {
+  const clientBuildPath = path.join(__dirname, '..', 'client', 'build')
+  console.log(`Client build path: ${clientBuildPath}\n`)
+  app.use(express.static(clientBuildPath))
+}
 
 //-- Controller Routes -------------------------------------------------------
 app.use(require('./controllers'))
